@@ -1,6 +1,10 @@
 # Hermes PWA
 
-Reference implementation of the newly released [shadcn/ui](https://ui.shadcn.com) chat components, built as a PWA frontend for the Hermes agent backend running on a VPS.
+I've had fun using a PWA as one of the channels to message with Hermes Agent.  But it was a manually built web app with components that didn't natuarally compose into a nice mobile web experience.  
+
+Then shadcn dropped a post on X with this philosophical take: "MessageScroller handles the parts that are easy to get wrong: Anchored turns. Streamed replies. Saved thread restore. Prepended History. Jump-to-message. Scroll Controls. Visibility Tracking. It owns the behavior. You bring the data, transport, persistence, or model state."
+
+This seemed like a perfect fit for Hermes Agent.  So that's what this repo is for; an experiment to validate that assumption. It's a reference implementation of the newly released [shadcn/ui](https://ui.shadcn.com) chat components, built as a PWA frontend for the Hermes agent backend running on a VPS.
 
 ## Stack
 
