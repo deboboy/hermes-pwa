@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hermes PWA
+
+Reference implementation of the newly released [shadcn/ui](https://ui.shadcn.com) chat components, built as a PWA frontend for the Hermes agent backend running on a VPS.
+
+## Stack
+
+- **Next.js 16** + **TypeScript** + **Tailwind CSS**
+- **shadcn/ui** chat components:
+  - `MessageScroller`
+  - `Message`
+  - `Bubble`
+  - `Attachment`
+  - `Marker`
+- **PWA** via `@ducanh2912/next-pwa` (service worker, web manifest, theme-color)
+- **Streaming chat UI** with auto-scroll, Enter-to-send, loading state, markers, and attachment support
+- **API proxy route** at `src/app/api/chat/route.ts` that fans out to `NEXT_PUBLIC_HERMES_API_URL` and streams the response back to the UI
 
 ## Getting Started
 
-First, run the development server:
+```bash
+npm install
+```
+
+Create a local env file:
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local` and point `NEXT_PUBLIC_HERMES_API_URL` at your Hermes backend on the VPS.
+
+Run the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Production Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build --webpack
+npm run start
+```
 
-## Learn More
+## Connecting to Hermes Backend
 
-To learn more about Next.js, take a look at the following resources:
+The PWA does not embed credentials. Set these in `.env.local`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+NEXT_PUBLIC_HERMES_API_URL=https://your-hermes-backend.example.com
+HERMES_API_KEY=your-api-key
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The `/api/chat` route proxies requests to the backend and returns a streaming response.
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Deploy anywhere that runs Node.js. For Vercel:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+vercel deploy
+```
+
+Make sure `NEXT_PUBLIC_HERMES_API_URL` is set in your hosting environment.
