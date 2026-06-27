@@ -219,7 +219,7 @@ function ChatInner() {
       {/* Messages */}
       <MessageScroller className="flex-1">
         <MessageScrollerViewport>
-          <MessageScrollerContent>
+          <MessageScrollerContent className="px-4 pt-4 pb-4">
             {markers.map((marker) => (
               <MessageScrollerItem key={marker.id} scrollAnchor={!!marker.timestamp}>
                 <Marker variant={marker.type === "system" ? "border" : "default"}>

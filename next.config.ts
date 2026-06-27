@@ -3,6 +3,17 @@ import withPWA from "@ducanh2912/next-pwa";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  turbopack: {},
+  async headers() {
+    if (process.env.NODE_ENV !== "development") return [];
+    // Prevent stale production service workers from hijacking localhost in dev.
+    return [
+      {
+        source: "/sw.js",
+        headers: [{ key: "Cache-Control", value: "no-store" }],
+      },
+    ];
+  },
 };
 
 const pwaConfig = {
