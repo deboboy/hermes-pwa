@@ -6,6 +6,7 @@ import { Message, MessageContent, MessageHeader } from "@/components/ui/message"
 import { Bubble, BubbleContent, BubbleGroup } from "@/components/ui/bubble";
 import { Attachment, AttachmentMedia, AttachmentContent, AttachmentTitle, AttachmentDescription, AttachmentGroup, AttachmentActions } from "@/components/ui/attachment";
 import { Marker, MarkerIcon, MarkerContent } from "@/components/ui/marker";
+import { PushNotifications } from "@/components/push-notifications";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, Paperclip, Square, Loader2, Bot, User } from "lucide-react";
@@ -215,6 +216,8 @@ function ChatInner() {
           </Button>
         </div>
       </header>
+
+      <PushNotifications />
 
       {/* Messages */}
       <MessageScroller className="flex-1">
