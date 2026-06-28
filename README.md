@@ -17,6 +17,7 @@ This seemed like a perfect fit for Hermes Agent.  So that's what this repo is fo
   - `Marker`
 - **PWA** via hand-written service worker (`public/sw.js`): offline caching, web manifest, installable standalone app
 - **Native push notifications** via Web Push + VAPID (pattern ported from agent-phone)
+- **Session history & search** — local IndexedDB transcript + Hermes FTS remote search (pattern ported from agent-phone)
 - **Streaming chat UI** with auto-scroll, Enter-to-send, loading state, markers, and attachment support
 - **API proxy route** at `src/app/api/chat/route.ts` that fans out to `HERMES_API_URL` and streams the response back to the UI
 
@@ -118,7 +119,20 @@ HERMES_API_URL=https://your-hermes-backend.example.com
 HERMES_API_KEY=your-api-key
 ```
 
-The `/api/chat` route proxies requests to the backend and returns a streaming response.
+The `/api/chat` route proxies requests to the backend and returns a streaming response. Each chat uses a stable `sessionId` in `localStorage` (`hermes-session-id`) and sends `X-Hermes-Session-Id` to Hermes for session continuity and search indexing.
+
+## Session History & Search
+
+Tap the **search icon** in the header to open the search sheet (ported from agent-phone).
+
+| Layer | Source | Behavior |
+|-------|--------|----------|
+| **Now** | In-memory + IndexedDB (`hermes-pwa-transcript-v1`) | Instant local search; tap a result to scroll to that message |
+| **History** | Hermes `POST /v1/sessions/search` via `GET /api/search` | Remote FTS across past PWA sessions (channel: `hermes-pwa`) |
+
+Requires `HERMES_API_URL` and `HERMES_API_KEY` for remote history. Local search works offline after messages are persisted.
+
+Deep links: `/?session=<uuid>` restores the session id and reloads the local transcript for that session.
 
 ## Push Notifications
 
